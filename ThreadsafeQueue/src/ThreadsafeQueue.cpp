@@ -1,9 +1,20 @@
 #include "../headers/ThreadsafeQueue.h"
 
 template<class T>
-ThreadsafeQueue<T>::ThreadsafeQueue()
-: size(0) {
+ThreadsafeQueue<T>::ThreadsafeQueue() {}
 
+template<class T>
+ThreadsafeQueue<T>::ThreadsafeQueue(const std::size_t size) {
+    for (int i = 0; i < size; i++) {
+        push(0);
+    }
+}
+
+template<class T>
+ThreadsafeQueue<T>::ThreadsafeQueue(const std::initializer_list<T>& initial_list) {
+    for (const auto& item: initial_list) {
+        push(item);
+    }
 }
 
 template<class T>
@@ -11,7 +22,7 @@ void ThreadsafeQueue<T>::push(T new_value) {
     std::shared_ptr<T> sptr(std::make_shared<T>(std::move(new_value)));
     std::lock_guard<std::mutex> l(mtx);
     data.push(sptr);
-    size.fetch_add(1);
+    len.fetch_add(1);
     cv.notify_one();
 }
 
@@ -21,7 +32,7 @@ void ThreadsafeQueue<T>::wait_and_pop(T& value) {
     cv.wait(l, [this]() {return !data.empty(); });
     value = std::move(*data.front());
     data.pop();
-    size.fetch_sub(1);
+    len.fetch_sub(1);
 }
 
 template<class T>
@@ -30,7 +41,7 @@ std::shared_ptr<T> ThreadsafeQueue<T>::wait_and_pop() {
     cv.wait(l, [this]() {return !data.empty(); });
     auto res(std::make_shared<T>(std::move(data.front())));
     data.pop();
-    size.fetch_sub(1);
+    len.fetch_sub(1);
     return res;
 }
 
@@ -42,7 +53,7 @@ bool ThreadsafeQueue<T>::try_pop(T& value) {
     }
     value = std::move(*data.front());
     data.pop();
-    size.fetch_sub(1);
+    len.fetch_sub(1);
     return true;
 }
 
@@ -54,7 +65,7 @@ std::shared_ptr<T> ThreadsafeQueue<T>::try_pop() {
     }
     auto res = data.front();
     data.pop();
-    size.fetch_sub(1);
+    len.fetch_sub(1);
     return res;
 }
 
@@ -65,7 +76,14 @@ bool ThreadsafeQueue<T>::empty() const {
 }
 
 template<class T>
-std::size_t ThreadsafeQueue<T>::len() const {
+std::size_t ThreadsafeQueue<T>::size() const {
     std::lock_guard<std::mutex> l(mtx);
-    return size;
+    return len;
+}
+
+template<class T>
+void ThreadsafeQueue<T>::clear() {
+    while(!empty()) {
+        try_pop();
+    }
 }
