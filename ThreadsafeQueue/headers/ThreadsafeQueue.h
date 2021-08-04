@@ -5,6 +5,12 @@
 #include <queue>
 #include <atomic>
 
+
+/*
+ * use sptr is overhead for primitive types
+ * but for classes created by user its much better because no need to copy whole object from list.
+ * With sptr we avoid problems like mem leaks
+ * */
 template<class T>
 class ThreadsafeQueue {
 private:
