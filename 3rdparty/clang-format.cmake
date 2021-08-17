@@ -23,7 +23,7 @@ if(WIN32)
                 ${ALL_SOURCE_FILES}
         )
     else ()
-        message(No clang-format detected)
+        message("No clang-format detected")
     endif ()
 endif()
 
