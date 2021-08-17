@@ -16,10 +16,8 @@ if(WIN32)
     if (CMAKE_CXX_CLANGFORMAT)
         message("CMAKE_CXX_CLANGFORMAT = ${CMAKE_CXX_CLANGFORMAT}")
         add_custom_target(clang-format
-                COMMAND ${CMAKE_CXX_CLANGFORMAT}
-                    -style=LLVM
-                    -i
-                ${ALL_SOURCE_FILES}
+                COMMAND ${CMAKE_CXX_CLANGFORMAT} -style=LLVM -i
+                SOURCES ${ALL_SOURCE_FILES}
         )
     else ()
         message("No clang-format detected")
