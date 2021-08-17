@@ -25,6 +25,6 @@ if(WIN32)
                 SOURCES ${ALL_SOURCE_FILES}
                 )
     else()
-        message(No Cppcheck detected)
+        message("No Cppcheck detected")
     endif()
 endif()
