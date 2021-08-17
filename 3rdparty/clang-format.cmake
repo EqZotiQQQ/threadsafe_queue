@@ -16,8 +16,7 @@ if(WIN32)
     if (CMAKE_CXX_CLANGFORMAT)
         message("CMAKE_CXX_CLANGFORMAT = ${CMAKE_CXX_CLANGFORMAT}")
         add_custom_target(clang-format
-                #COMMAND ${CMAKE_CXX_CLANGFORMAT}
-                COMMAND C:/msys64/mingw64/bin/clang-format.exe
+                COMMAND ${CMAKE_CXX_CLANGFORMAT}
                     -style=LLVM
                     -i
                 ${ALL_SOURCE_FILES}
