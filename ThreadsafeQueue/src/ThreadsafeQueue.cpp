@@ -1,4 +1,4 @@
-#include "../headers/ThreadsafeQueue.h"
+#include "ThreadsafeQueue.h"
 
 template<class T>
 ThreadsafeQueue<T>::ThreadsafeQueue() {}
@@ -23,13 +23,15 @@ void ThreadsafeQueue<T>::push(T new_value) {
     std::lock_guard<std::mutex> l(mtx);
     data.push(sptr);
     len.fetch_add(1);
-    cv.notify_one();
+    not_empty.notify_one();
 }
 
 template<class T>
 void ThreadsafeQueue<T>::wait_and_pop(T& value) {
     std::lock_guard<std::mutex> l(mtx);
-    cv.wait(l, [this]() {return !data.empty(); });
+    while (data.empty()) {
+        not_empty.wait(l, [this]() { return !data.empty(); });
+    }
     value = std::move(*data.front());
     data.pop();
     len.fetch_sub(1);
@@ -38,7 +40,9 @@ void ThreadsafeQueue<T>::wait_and_pop(T& value) {
 template<class T>
 std::shared_ptr<T> ThreadsafeQueue<T>::wait_and_pop() {
     std::lock_guard<std::mutex> l(mtx);
-    cv.wait(l, [this]() {return !data.empty(); });
+    while (data.empty()) {
+        not_empty.wait(l, [this]() { return !data.empty(); });
+    }
     auto res(std::make_shared<T>(std::move(data.front())));
     data.pop();
     len.fetch_sub(1);

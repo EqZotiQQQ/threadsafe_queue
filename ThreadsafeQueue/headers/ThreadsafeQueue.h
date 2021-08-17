@@ -5,12 +5,17 @@
 #include <queue>
 #include <atomic>
 
+
+/**
+ * Shared pointer use here to keep objects and remove them when noone will refer to them. It worth to use pointers for
+ * non primitive types. But this queue will not be as fast as default queue for primitive types.
+ * */
 template<class T>
 class ThreadsafeQueue {
 private:
     std::queue<std::shared_ptr<T>> data;
     mutable std::mutex mtx;
-    std::condition_variable cv;
+    std::condition_variable not_empty;
     std::atomic<std::size_t> len {};  // can keep int, cuz of all actions under guards
 public:
     ThreadsafeQueue();
