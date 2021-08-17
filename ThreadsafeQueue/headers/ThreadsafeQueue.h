@@ -23,7 +23,6 @@ public:
     ThreadsafeQueue(const std::size_t size);  //fill n element with zeros
     ThreadsafeQueue(const std::initializer_list<T>& initial_list); // list{elem1, elem2, ...}
 
-
     void push(T new_value);
 
     void wait_and_pop(T& value);

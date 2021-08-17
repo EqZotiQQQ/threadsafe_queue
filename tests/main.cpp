@@ -1,8 +1,9 @@
-#include "tests.h"
+#include "gtest/gtest.h"
+
+#include "../ThreadsafeQueue/headers/ThreadsafeQueue.h"
+#include "../ThreadsafeQueue/src/ThreadsafeQueue.cpp"
 
 #include <thread>
-
-#include "gtest/gtest.h"
 
 TEST(TestThreadsafeQueue, CreateQueue) {
     ThreadsafeQueue<int> queue;

@@ -1,6 +1,6 @@
 project(ThreadsafeQueue_tests)
 
-add_executable(ThreadsafeQueue_tests main.cpp tests.cpp tests.h)
+add_executable(ThreadsafeQueue_tests main.cpp)
 
 target_link_libraries(ThreadsafeQueue_tests ThreadsafeQueue)
 target_link_libraries(ThreadsafeQueue_tests gtest gtest_main)
