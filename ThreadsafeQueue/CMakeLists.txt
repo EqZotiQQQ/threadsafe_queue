@@ -13,7 +13,7 @@ set(SOURCES
         )
 
 include_directories(
-        ThreadsafeQueue/headers
+        headers
 )
 
 add_library(ThreadsafeQueue STATIC ${HEADERS} ${SOURCES})

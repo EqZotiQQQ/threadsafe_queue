@@ -1,8 +1,6 @@
 project(ThreadsafeQueue_benchmarks)
 
-add_subdirectory(benchmark)
-
 add_executable(ThreadsafeQueue_benchmarks main.cpp)
 
-#target_link_libraries(ThreadsafeQueue_benchmarks ThreadsafeQueue)
+target_link_libraries(ThreadsafeQueue_benchmarks ThreadsafeQueue)
 target_link_libraries(ThreadsafeQueue_benchmarks benchmark::benchmark)

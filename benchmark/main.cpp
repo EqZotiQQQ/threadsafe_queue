@@ -1,6 +1,7 @@
-#include <thread>
 #include "benchmark/benchmark.h"
+
 #include <algorithm>
+#include <thread>
 
 #include "../ThreadsafeQueue/headers/ThreadsafeQueue.h"
 #include "../ThreadsafeQueue/src/ThreadsafeQueue.cpp"

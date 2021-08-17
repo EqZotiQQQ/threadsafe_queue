@@ -1,4 +1,4 @@
-#include "ThreadsafeQueue.h"
+#include "../headers/ThreadsafeQueue.h"
 
 template<class T>
 ThreadsafeQueue<T>::ThreadsafeQueue() {}

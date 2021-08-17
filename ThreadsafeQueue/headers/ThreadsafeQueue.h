@@ -6,9 +6,10 @@
 #include <atomic>
 
 
-/**
- * Shared pointer use here to keep objects and remove them when noone will refer to them. It worth to use pointers for
- * non primitive types. But this queue will not be as fast as default queue for primitive types.
+/*
+ * use sptr is overhead for primitive types
+ * but for classes created by user its much better because no need to copy whole object from list.
+ * With sptr we avoid problems like mem leaks
  * */
 template<class T>
 class ThreadsafeQueue {
