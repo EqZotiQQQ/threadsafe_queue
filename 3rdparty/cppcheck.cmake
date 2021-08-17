@@ -11,10 +11,11 @@ foreach (SOURCE_FILE ${ALL_SOURCE_FILES})
     endif ()
 endforeach ()
 
-if(WIN32)
+if (WIN32)
     find_program(CMAKE_CXX_CPPCHECK cppcheck NAMES cppcheck HINTS $ENV{PROGRAMFILES}/cppcheck)
-    if(CMAKE_CXX_CPPCHECK)
+    if (CMAKE_CXX_CPPCHECK)
         message("CMAKE_CXX_CPPCHECK = ${CMAKE_CXX_CPPCHECK}")
+        message("sources to be cppchecked: ${ALL_SOURCE_FILES}")
         add_custom_target(cppcheck
                 COMMAND ${CMAKE_CXX_CPPCHECK}
                     --enable=warning,performance,portability,information,missingInclude
