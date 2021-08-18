@@ -1,24 +1,28 @@
 #include "../headers/ThreadsafeQueue.h"
 
 template<class T>
-ThreadsafeQueue<T>::ThreadsafeQueue() {}
+ThreadsafeQueue<T>::ThreadsafeQueue()
+{}
 
 template<class T>
-ThreadsafeQueue<T>::ThreadsafeQueue(const std::size_t size) {
+ThreadsafeQueue<T>::ThreadsafeQueue(const std::size_t size)
+{
     for (int i = 0; i < size; i++) {
         push(0);
     }
 }
 
 template<class T>
-ThreadsafeQueue<T>::ThreadsafeQueue(const std::initializer_list<T>& initial_list) {
-    for (const auto& item: initial_list) {
+ThreadsafeQueue<T>::ThreadsafeQueue(const std::initializer_list<T>& initial_list)
+{
+    for (const auto& item : initial_list) {
         push(item);
     }
 }
 
 template<class T>
-void ThreadsafeQueue<T>::push(T new_value) {
+void ThreadsafeQueue<T>::push(T new_value)
+{
     std::shared_ptr<T> sptr(std::make_shared<T>(std::move(new_value)));
     std::lock_guard<std::mutex> l(mtx);
     data.push(sptr);
@@ -27,7 +31,8 @@ void ThreadsafeQueue<T>::push(T new_value) {
 }
 
 template<class T>
-void ThreadsafeQueue<T>::wait_and_pop(T& value) {
+void ThreadsafeQueue<T>::wait_and_pop(T& value)
+{
     std::lock_guard<std::mutex> l(mtx);
     while (data.empty()) {
         not_empty.wait(l, [this]() { return !data.empty(); });
@@ -38,7 +43,8 @@ void ThreadsafeQueue<T>::wait_and_pop(T& value) {
 }
 
 template<class T>
-std::shared_ptr<T> ThreadsafeQueue<T>::wait_and_pop() {
+std::shared_ptr<T> ThreadsafeQueue<T>::wait_and_pop()
+{
     std::lock_guard<std::mutex> l(mtx);
     while (data.empty()) {
         not_empty.wait(l, [this]() { return !data.empty(); });
@@ -50,7 +56,8 @@ std::shared_ptr<T> ThreadsafeQueue<T>::wait_and_pop() {
 }
 
 template<class T>
-bool ThreadsafeQueue<T>::try_pop(T& value) {
+bool ThreadsafeQueue<T>::try_pop(T& value)
+{
     std::lock_guard<std::mutex> l(mtx);
     if (data.empty()) {
         return false;
@@ -62,7 +69,8 @@ bool ThreadsafeQueue<T>::try_pop(T& value) {
 }
 
 template<class T>
-std::shared_ptr<T> ThreadsafeQueue<T>::try_pop() {
+std::shared_ptr<T> ThreadsafeQueue<T>::try_pop()
+{
     std::lock_guard<std::mutex> l(mtx);
     if (data.empty()) {
         return std::make_shared<T>();
@@ -74,20 +82,23 @@ std::shared_ptr<T> ThreadsafeQueue<T>::try_pop() {
 }
 
 template<class T>
-bool ThreadsafeQueue<T>::empty() const {
+bool ThreadsafeQueue<T>::empty() const
+{
     std::lock_guard<std::mutex> l(mtx);
     return data.empty();
 }
 
 template<class T>
-std::size_t ThreadsafeQueue<T>::size() const {
+std::size_t ThreadsafeQueue<T>::size() const
+{
     std::lock_guard<std::mutex> l(mtx);
     return len;
 }
 
 template<class T>
-void ThreadsafeQueue<T>::clear() {
-    while(!empty()) {
+void ThreadsafeQueue<T>::clear()
+{
+    while (!empty()) {
         try_pop();
     }
 }

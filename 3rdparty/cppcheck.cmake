@@ -28,4 +28,21 @@ if (WIN32)
     else()
         message("No Cppcheck detected")
     endif()
+elseif(APPLE)
+    message("Not done yet")
+else()
+    find_program(CMAKE_CXX_CPPCHECK NAMES cppcheck)
+    if (CMAKE_CXX_CPPCHECK)
+        add_custom_target(
+                cppcheck
+                COMMAND /usr/bin/cppcheck
+                --enable=warning,performance,portability,information,missingInclude
+                --std=c++20
+                --template="[{severity}][{id}] {message} {callstack} \(On {file}:{line}\)"
+                --verbose
+                --quiet
+                ${ALL_SOURCE_FILES}
+        )
+    endif()
+
 endif()
