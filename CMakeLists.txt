@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(threadsafe_queue)
+project(lib)
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -12,7 +12,7 @@ include(clang_formatter)
 include_directories(tests)
 include_directories(benchmark)
 
-add_subdirectory(threadsafe_queue)
+add_subdirectory(lib)
 
 add_subdirectory(tests)
 add_subdirectory(benchmark)
