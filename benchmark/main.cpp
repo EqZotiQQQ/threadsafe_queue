@@ -1,9 +1,7 @@
-#include "../ThreadsafeQueue/headers/ThreadsafeQueue.h"
-#include "../ThreadsafeQueue/src/ThreadsafeQueue.cpp"
+#include "threadsafe_queue.h"
 #include "benchmark/benchmark.h"
 
 #include <algorithm>
-#include <thread>
 
 template<class T>
 void push_element(T& q, int n = 1)
@@ -15,7 +13,7 @@ void push_element(T& q, int n = 1)
 
 void thread_safe_queue(benchmark::State& state)
 {
-    ThreadsafeQueue<int> queue;
+    ThreadSafeQueue<int> queue;
     int n = state.range(0);
     while (state.KeepRunning()) {
         push_element(queue, n);

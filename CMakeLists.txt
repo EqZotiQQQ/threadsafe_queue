@@ -1,15 +1,23 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(ThreadsafeQueue)
+project(threadsafe_queue)
 
 set(CMAKE_CXX_STANDARD 20)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty)   # include additional tools
-include(utils)      # execute utils.3rdparty
-include(cppcheck)      # execute utils.3rdparty
-include(clang_formatter)      # execute utils.3rdparty
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)   # include additional tools
+#include(utils)
+include(cppcheck)
+include(clang_formatter)
 
-add_subdirectory(ThreadsafeQueue)
+include_directories(tests)
+include_directories(benchmark)
+
+add_subdirectory(threadsafe_queue)
 
 add_subdirectory(tests)
 add_subdirectory(benchmark)
+
+add_subdirectory(third_party/googletest)
+add_subdirectory(third_party/benchmark)
+
+add_compile_options(-Wall -Wextra -pedantic -Werror)
