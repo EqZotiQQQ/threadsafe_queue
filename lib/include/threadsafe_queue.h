@@ -79,12 +79,10 @@ public:
     }
 
     bool empty() const {
-        std::lock_guard<std::mutex> l(mtx);
-        return data.empty();
+        return len.load() == 0;
     }
 
     std::size_t size() const {
-        std::lock_guard<std::mutex> l(mtx);
-        return len;
+        return len.load();
     }
 };
