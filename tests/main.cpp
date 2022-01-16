@@ -4,7 +4,7 @@
 #include <thread>
 
 /*
- * I'm too lazy for that. Maybe later.
+ * It's simple but i dont want to do that right now
  * */
 
 struct A{
